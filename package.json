@@ -1,7 +1,7 @@
 {
   "name": "node-cli-starter",
   "version": "0.0.1",
-  "description": "",
+  "description": "node-cli-starter use typescript",
   "bin": "bin/index.js",
   "main": "index.js",
   "scripts": {
