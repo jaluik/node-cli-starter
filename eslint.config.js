@@ -9,7 +9,9 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   prettierConfig,
   {
-    rules: {},
+    rules: {
+      'no-case-declarations': 0,
+    },
   },
   {
     ignores: ['dist/', 'node_modules/', 'bin/'],
