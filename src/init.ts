@@ -6,8 +6,12 @@ import {
   installJest,
   writeJestConfig,
 } from './utils';
+import sharedVars from './sharedVars';
 
-async function init() {
+const { setBasePath } = sharedVars;
+
+async function init(path: string) {
+  setBasePath(path);
   const spinner = ora('分析项目中...').start();
 
   try {

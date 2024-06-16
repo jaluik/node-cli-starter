@@ -2,12 +2,15 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import { execSync } from 'child_process';
 import { PackageJsonType, PackageManagerType, TechStackType } from './types';
+import sharedVars from './sharedVars';
 import ora from 'ora';
 
 const spinner = ora();
 
+const { getBasePath } = sharedVars;
+
 export function getPackageJson(): PackageJsonType {
-  const packageJsonPath = path.resolve(process.cwd(), 'package.json');
+  const packageJsonPath = path.resolve(getBasePath(), 'package.json');
   if (!fs.existsSync(packageJsonPath)) {
     spinner.fail('package.json not found');
     process.exit(1);
@@ -61,9 +64,9 @@ export const getPackageVersion = (
 };
 
 export function detectPackageManager(): PackageManagerType {
-  if (fs.existsSync(path.resolve(process.cwd(), 'yarn.lock'))) {
+  if (fs.existsSync(path.resolve(getBasePath(), 'yarn.lock'))) {
     return 'yarn';
-  } else if (fs.existsSync(path.resolve(process.cwd(), 'pnpm-lock.yaml'))) {
+  } else if (fs.existsSync(path.resolve(getBasePath(), 'pnpm-lock.yaml'))) {
     return 'pnpm';
   }
   return 'npm';
@@ -99,13 +102,13 @@ export function installJest(packageManager: PackageManagerType): void {
 }
 
 export function writeJestConfig(): void {
-  const jestConfigPath = path.resolve(process.cwd(), 'jest.config.js');
+  const jestConfigPath = path.resolve(getBasePath(), 'jest.config.js');
   const templatePath = path.resolve(__dirname, 'jest.config.template.js');
   fs.copyFileSync(templatePath, jestConfigPath);
 }
 
 export function updatePackageJsonScripts(obj: Record<string, string>) {
-  const packageJsonPath = path.resolve(process.cwd(), 'package.json');
+  const packageJsonPath = path.resolve(getBasePath(), 'package.json');
   const packageJson = getPackageJson();
 
   packageJson.scripts = packageJson.scripts || {};

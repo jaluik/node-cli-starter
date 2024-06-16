@@ -12,7 +12,13 @@ program
   .version(process.env.VERSION);
 
 // add command options
-program.command('init').description('init command').action(init);
+program
+  .command('init')
+  .description('init command')
+  .option('-p, --path <path>', 'project path', process.cwd())
+  .action(({ path }: { path: string }) => {
+    return init(path);
+  });
 program.command('update').description('update command').action(update);
 
 program.parse(process.argv);
